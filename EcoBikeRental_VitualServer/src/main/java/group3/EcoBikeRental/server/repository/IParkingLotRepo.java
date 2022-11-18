@@ -1,0 +1,19 @@
+package group3.EcoBikeRental.server.repository;
+
+import group3.EcoBikeRental.server.model.Bike;
+import group3.EcoBikeRental.server.model.ParkingLot;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface IParkingLotRepo extends JpaRepository<ParkingLot, Long> {
+
+    @Query(value = "select count(*) > ?1 from bike where parking_lot_id = ?2", nativeQuery = true)
+    int checkMaxSlotParkingLot(long max, long id);
+    @Query(value =  "update bike set parking_lot_id = '?2' where bike_id = ?1",nativeQuery = true)
+    void addBikeToParkingLot(long bikeId, long parkingLotId);
+
+}
